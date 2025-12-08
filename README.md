@@ -57,3 +57,52 @@ typedef struct GraphTable {
 
 ## 函数定义
 
+- `Status initGraph(GraphMat &G)` 用于初始化邻接矩阵，进行对应的置零操作
+  - `GraphMat &G` 需要初始化的邻接矩阵
+- `Status insertNode(GraphMat &G, char node)` 用于向邻接矩阵中插入传入的字符串节点
+  - `GraphMat &G` 需要插入节点的邻接矩阵
+  - `char node` 需要插入到矩阵中的新节点
+- `Status insertArc(GraphMat &G, char from, char to)` 用于向邻接矩阵中插入从 from 到 to 的有向边
+  - `GraphMat &G` 需要插入有向边的邻接矩阵
+  - `char from` 起始节点
+  - `char to` 终点节点
+- `Status removeArc(GraphMat &G, char from, char to)` 用于删除邻接矩阵中从 from 到 to 的有向边
+  - `GraphMat &G` 需要删除有向边的邻接矩阵
+  - `char from` 起始节点
+  - `char to` 终点节点
+- `Status removeNode(GraphMat &G, char node)` 将传入的节点从邻接矩阵中删除
+  - `GraphMat &G` 需要删除节点的邻接矩阵
+  - `char node` 需要删除的节点
+- `int getNodeInDegree(const GraphMat &G, char node)` 获取节点的入度
+  - `const GraphMat &G` 需要获取入度的矩阵
+  - `char node` 需要获取入度的节点
+- `int getNodeOutDegree(const GraphMat &G, char node)` 获取节点的出度
+  - `const GraphMat &G` 需要获取出度的矩阵
+  - `char node` 需要获取出度的节点
+- `int getNodeDegree(const GraphMat &G, char node)` 获取节点的度（其实就是上面两个一起跑）
+  - `const GraphMat &G` 需要获取度的矩阵
+  - `char node` 需要获取度的节点
+- `void BFS(const GraphTable &GT, char start)` 从给定的 start 节点进行广度优先搜索
+  - `const GraphTable &GT` 需要进行搜索遍历的矩阵
+  - `char start` 起始节点
+- `void DFS(const GraphTable &GT, char start)` 从给定的 start 节点进行深度优先搜索
+  - `const GraphTable &GT` 需要进行搜索遍历的矩阵
+  - `char start` 起始节点
+- `Status migrateToTable(const GraphMat &G, GraphTable &GT)` 从给定的邻接矩阵迁移到邻接表
+  - `const GraphMat &G` 需要进行迁移的邻接矩阵
+  - `GraphTable &GT` 迁移后的结果邻接表
+- `void printGraphMat(const GraphMat &G)` 打印邻接矩阵
+  - `const GraphMat &G` 需要打印的邻接矩阵
+- `void printGraphTable(const GraphTable &GT)` 打印邻接表
+  - `const GraphTable &GT` 需要打印的邻接表
+- `Boolean findPathFromTo(const GraphTable &GT, char from, char to)` 寻找是否存在从 from 到 to 的路径，存在返回 TRUE，否则返回 FALSE
+  - `const GraphTable &GT` 需要寻找路径的邻接表
+  - `char from` 起始节点
+  - `char to` 目标节点
+- `char getFirstNeighbor(const GraphTable &GT, char node)` 获取提供节点的第一个邻居节点
+  - `const GraphTable &GT` 需要寻找节点的邻接表
+  - `char node` 需要寻找邻居的节点
+- `char getNextNeighbor(const GraphTable &GT, char node, char cur)` 获取当前所在的邻居节点的下一个在邻接表上的节点
+  - `const GraphTable &GT` 需要寻找节点的邻接表
+  - `char node` 起始节点
+  - `char cur` 当前所在节点

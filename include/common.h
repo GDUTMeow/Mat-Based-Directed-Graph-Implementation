@@ -12,4 +12,5 @@
 #define MAX_LENGTH 100
 
 typedef int Status;
+typedef int Boolean;
 

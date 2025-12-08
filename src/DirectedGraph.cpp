@@ -2,7 +2,7 @@
 #include "../include/DirectedGraph.h"
 
 Status initGraph(GraphMat &G) {
-    
+
 }
 
 Status insertNode(GraphMat &G, char node) {
@@ -21,44 +21,40 @@ Status removeNode(GraphMat &G, char node) {
 
 }
 
-int getNodeInDegree(GraphMat G, char node) {
+int getNodeInDegree(const GraphMat &G, char node) {
 
 }
 
-int getNodeOutDegree(GraphMat G, char node) {
+int getNodeOutDegree(const GraphMat &G, char node) {
 
 }
 
-int getNodeDegree(GraphMat G, char node) {
+int getNodeDegree(const GraphMat &G, char node) {
 
 }
 
 
-void BFS(const GraphTable &GT, char start_node) {
+void BFS(const GraphTable &GT, char start) {
 
 }
 
-void DFS(const GraphTable &GT, char start_node) {
+void DFS(const GraphTable &GT, char start) {
 
 }
 
-Status migrateToTable(GraphMat G, GraphTable &GT) {
+Status migrateToTable(const GraphMat &G, GraphTable &GT) {
 
 }
 
-void showGraphTable(GraphTable G) {
+void printGraphMat(const GraphMat &G) {
 
 }
 
-void printGraphMat(GraphMat G) {
+void printGraphTable(const GraphTable &GT) {
 
 }
 
-void printGraphTable(GraphTable GT) {
-
-}
-
-Status findPathFromTo(const GraphTable &GT, char from, char to) {
+Boolean findPathFromTo(const GraphTable &GT, char from, char to) {
 
 }
 
@@ -66,6 +62,6 @@ char getFirstNeighbor(const GraphTable &GT, char node) {
 
 }
 
-char getNextNeighbor(const GraphTable &GT, char node, char cur_neigh) {
+char getNextNeighbor(const GraphTable &GT, char node, char cur) {
 
 }
