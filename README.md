@@ -55,3 +55,5 @@ typedef struct GraphTable {
   - `int node_count` 用于保存节点的数量（用来偷懒）
   - `int arc_count` 用于保存弧的数量（同样用来偷懒诶嘿）
 
+## 函数定义
+

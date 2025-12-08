@@ -2,8 +2,6 @@
 
 #pragma once
 
-#define MAX_LENGTH 100
-
 typedef struct Arc {
     int target;    // 此边指向的终点的节点位置
     Arc *nextarc;    // 指向下一条边的指针
@@ -26,4 +24,20 @@ typedef struct GraphTable {
 } GraphTable;   // 邻接表
 
 // 函数
-// TODO 懒了，晚点再做
+Status initGraph(GraphMat &G); // 初始化邻接矩阵
+Status insertNode(GraphMat &G, char node); // 向邻接矩阵中插入节点
+Status insertArc(GraphMat &G, char from, char to); // 向邻接矩阵中插入边
+Status removeArc(GraphMat &G, char from, char to); // 从邻接矩阵中删除边
+Status removeNode(GraphMat &G, char node); // 从邻接矩阵中删除
+int getNodeInDegree(GraphMat G, char node); // 获取节点的入度
+int getNodeOutDegree(GraphMat G, char node); // 获取节点的出度
+int getNodeDegree(GraphMat G, char node); // 获取节点的度
+void BFS(const GraphTable &GT, char start_node);    // 广度优先搜索
+void DFS(const GraphTable &GT, char start_node);    // 深度优先搜索
+Status migrateToTable(GraphMat G, GraphTable &GT); // 将邻接矩阵转换为邻接表
+void showGraphTable(GraphTable G); // 显示邻接表
+void printGraphMat(GraphMat G); // 打印邻接矩阵
+void printGraphTable(GraphTable GT); // 打印邻接表
+Status findPathFromTo(const GraphTable &GT, char from, char to);    // 查找从 from 到 to 的路径是否存在
+char getFirstNeighbor(const GraphTable &GT, char node); // 获取节点的第一个邻居
+char getNextNeighbor(const GraphTable &GT, char node, char cur_neigh);  // 获取节点的下一个邻居

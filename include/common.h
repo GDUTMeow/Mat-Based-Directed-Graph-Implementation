@@ -9,5 +9,7 @@
 #define TRUE 1  // 真值
 #define FALSE 0 // 假值
 
+#define MAX_LENGTH 100
+
 typedef int Status;
 
