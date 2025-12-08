@@ -1,6 +1,6 @@
-# DirectedGraphImplementation
+# Mat-Based-Directed-Graph-Implementation
 
-个人系数据结构实验课实验报告代码，做的是有向图
+个人系数据结构实验课实验报告代码，做的是有向图，基于邻接矩阵的有向图操作（除非必要否则不用邻接表，问就是个人感觉没矩阵方便）
 
 ## 数据结构定义
 
