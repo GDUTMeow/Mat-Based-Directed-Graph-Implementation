@@ -271,7 +271,7 @@ Status migrateToTable(const GraphMat &G, GraphTable &GT)
     GT.arc_count = 0;       // 初始化边数量
     for (int line = 0; line < G.size; line++)
     {
-        for (int col = 0; col < G.size; col++)
+        for (int col = G.size - 1; col >= 0; col--)
         {
             if (G.arcs[line][col] == 1)
             { // 存在从 line 到 col 的边
