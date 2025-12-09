@@ -57,6 +57,10 @@ Status initGraphTable(GraphTable &GT)
 
 Status insertNode(GraphMat &G, char node)
 {
+    if (findNodeIndex(G, node) != -1)
+    {
+        return ERROR; // 节点已存在
+    }
     G.nodes[G.size++] = node; // 将节点添加到节点列表中
     return SUCCESS;
 }
@@ -68,6 +72,10 @@ Status insertArc(GraphMat &G, char from, char to)
     {
         return ERROR; // 有节点不存在
     }
+    if (G.arcs[from_idx][to_idx] == 1)
+    {
+        return SUCCESS; // 边已存在
+    }
     G.arcs[from_idx][to_idx] = 1; // 在邻接矩阵中添加边
     return SUCCESS;
 }
@@ -75,6 +83,10 @@ Status insertArc(GraphMat &G, char from, char to)
 Status removeArc(GraphMat &G, char from, char to)
 {
     int from_idx = findNodeIndex(G, from), to_idx = findNodeIndex(G, to);
+    if (from_idx == -1 || to_idx == -1)
+    {
+        return ERROR; // 有节点不存在
+    }
     G.arcs[from_idx][to_idx] = 0; // 在邻接矩阵中删除边
     return SUCCESS;
 }
@@ -184,7 +196,7 @@ void BFS(const GraphTable &GT, char start_node)
 
         // 遍历当前节点的所有邻居
         Arc *p = GT.nodes[current_node_idx].firstarc;
-        while (p != NULLPTR)    // 边非空
+        while (p != NULLPTR) // 边非空
         {
             int neighbor_idx = p->target;
             // 如果邻居未被访问，则标记并入队
@@ -201,11 +213,11 @@ void BFS(const GraphTable &GT, char start_node)
 
 void DFSTraversal(const GraphTable &GT, int node_idx, bool visited[])
 {
-    visited[node_idx] = true;  // 标记当前节点为已访问
-    std::cout << GT.nodes[node_idx].data << " -> ";   // 访问并输出当前节点
+    visited[node_idx] = true;                       // 标记当前节点为已访问
+    std::cout << GT.nodes[node_idx].data << " -> "; // 访问并输出当前节点
 
-    Arc *p = GT.nodes[node_idx].firstarc;  // 获取当前节点的第一条边
-    while (p != NULLPTR)    // 第一条边非空
+    Arc *p = GT.nodes[node_idx].firstarc; // 获取当前节点的第一条边
+    while (p != NULLPTR)                  // 第一条边非空
     {
         int neighbor_idx = p->target;
         if (!visited[neighbor_idx]) // 邻居没有被访问过
@@ -225,7 +237,7 @@ void DFS(const GraphTable &GT, char start_node)
         return;
     }
 
-    bool visited[MAX_LENGTH];   // 存储访问状态标记
+    bool visited[MAX_LENGTH]; // 存储访问状态标记
     for (int i = 0; i < GT.node_count; i++)
     {
         visited[i] = false; // 初始化
@@ -236,8 +248,10 @@ void DFS(const GraphTable &GT, char start_node)
     DFSTraversal(GT, start_idx, visited);
 
     // 当图为非连通时，处理剩下的节点
-    for (int i = 0; i < GT.node_count; i++) {
-        if (!visited[i]) {
+    for (int i = 0; i < GT.node_count; i++)
+    {
+        if (!visited[i])
+        {
             DFSTraversal(GT, i, visited);
         }
     }
@@ -365,4 +379,47 @@ char getNextNeighbor(const GraphTable &GT, char node, char cur)
         currentArc = currentArc->nextarc;
     }
     return '\0'; // 当前邻居不存在
+}
+
+void printGraphNodes(const GraphMat &G)
+{
+    if (G.size == 0)
+    {
+        std::cout << "[-] No nodes in the graph." << std::endl;
+        return;
+    }
+    for (int i = 0; i < G.size; i++)
+    {
+        std::cout << G.nodes[i] << " ";
+    }
+    std::cout << std::endl
+              << "[*] Total nodes: " << G.size << std::endl;
+}
+
+void printGraphArcs(const GraphMat &G)
+{
+    if (G.size == 0)
+    {
+        std::cout << "[-] No arcs in the graph." << std::endl;
+        return;
+    }
+
+    int found = 0, count = 0;
+    for (int i = 0; i < G.size; i++)
+    {
+        for (int j = 0; j < G.size; j++)
+        {
+            if (G.arcs[i][j] == 1)
+            {
+                found = 1;
+                count++;
+                std::cout << G.nodes[i] << " -> " << G.nodes[j] << std::endl;
+            }
+        }
+    }
+    if (found == 0)
+    {
+        std::cout << "[-] No arcs in the graph." << std::endl;
+    }
+    std::cout << "[*] Total arcs: " << count << std::endl;
 }

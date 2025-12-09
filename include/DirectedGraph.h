@@ -41,3 +41,5 @@ void printGraphTable(const GraphTable &GT); // 打印邻接表
 Boolean findPathFromTo(const GraphTable &GT, char from, char to);    // 查找从 from 到 to 的路径是否存在
 char getFirstNeighbor(const GraphTable &GT, char node); // 获取节点的第一个邻居
 char getNextNeighbor(const GraphTable &GT, char node, char cur);  // 获取节点的下一个邻居
+void printGraphNodes(const GraphMat &G); // 打印图的所有节点
+void printGraphArcs(const GraphMat &G); // 打印图的所有边
