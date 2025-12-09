@@ -57,52 +57,135 @@ typedef struct GraphTable {
 
 ## 函数定义
 
-- `Status initGraph(GraphMat &G)` 用于初始化邻接矩阵，进行对应的置零操作
-  - `GraphMat &G` 需要初始化的邻接矩阵
-- `Status insertNode(GraphMat &G, char node)` 用于向邻接矩阵中插入传入的字符串节点
-  - `GraphMat &G` 需要插入节点的邻接矩阵
-  - `char node` 需要插入到矩阵中的新节点
-- `Status insertArc(GraphMat &G, char from, char to)` 用于向邻接矩阵中插入从 from 到 to 的有向边
-  - `GraphMat &G` 需要插入有向边的邻接矩阵
-  - `char from` 起始节点
-  - `char to` 终点节点
-- `Status removeArc(GraphMat &G, char from, char to)` 用于删除邻接矩阵中从 from 到 to 的有向边
-  - `GraphMat &G` 需要删除有向边的邻接矩阵
-  - `char from` 起始节点
-  - `char to` 终点节点
-- `Status removeNode(GraphMat &G, char node)` 将传入的节点从邻接矩阵中删除
-  - `GraphMat &G` 需要删除节点的邻接矩阵
-  - `char node` 需要删除的节点
-- `int getNodeInDegree(const GraphMat &G, char node)` 获取节点的入度
-  - `const GraphMat &G` 需要获取入度的矩阵
-  - `char node` 需要获取入度的节点
-- `int getNodeOutDegree(const GraphMat &G, char node)` 获取节点的出度
-  - `const GraphMat &G` 需要获取出度的矩阵
-  - `char node` 需要获取出度的节点
-- `int getNodeDegree(const GraphMat &G, char node)` 获取节点的度（其实就是上面两个一起跑）
-  - `const GraphMat &G` 需要获取度的矩阵
-  - `char node` 需要获取度的节点
-- `void BFS(const GraphTable &GT, char start)` 从给定的 start 节点进行广度优先搜索
-  - `const GraphTable &GT` 需要进行搜索遍历的矩阵
-  - `char start` 起始节点
-- `void DFS(const GraphTable &GT, char start)` 从给定的 start 节点进行深度优先搜索
-  - `const GraphTable &GT` 需要进行搜索遍历的矩阵
-  - `char start` 起始节点
-- `Status migrateToTable(const GraphMat &G, GraphTable &GT)` 从给定的邻接矩阵迁移到邻接表
-  - `const GraphMat &G` 需要进行迁移的邻接矩阵
-  - `GraphTable &GT` 迁移后的结果邻接表
-- `void printGraphMat(const GraphMat &G)` 打印邻接矩阵
-  - `const GraphMat &G` 需要打印的邻接矩阵
-- `void printGraphTable(const GraphTable &GT)` 打印邻接表
-  - `const GraphTable &GT` 需要打印的邻接表
-- `Boolean findPathFromTo(const GraphTable &GT, char from, char to)` 寻找是否存在从 from 到 to 的路径，存在返回 TRUE，否则返回 FALSE
-  - `const GraphTable &GT` 需要寻找路径的邻接表
-  - `char from` 起始节点
-  - `char to` 目标节点
-- `char getFirstNeighbor(const GraphTable &GT, char node)` 获取提供节点的第一个邻居节点
-  - `const GraphTable &GT` 需要寻找节点的邻接表
-  - `char node` 需要寻找邻居的节点
-- `char getNextNeighbor(const GraphTable &GT, char node, char cur)` 获取当前所在的邻居节点的下一个在邻接表上的节点
-  - `const GraphTable &GT` 需要寻找节点的邻接表
-  - `char node` 起始节点
-  - `char cur` 当前所在节点
+> [!important]
+>
+> 所有的函数实现都在 `src/DirectedGraph.cpp` 文件中
+
+### 核心操作函数
+
+这些函数直接对底层的邻接矩阵 `GraphMat` 进行操作，是图数据管理的基础
+
+- `Status initGraph(GraphMat &G)`
+  - **功能**: 初始化一个邻接矩阵图，将其置为空图状态
+  - **参数**:
+    - `GraphMat &G`: 需要被初始化的图对象的引用
+  - **返回**: 总是返回 `SUCCESS`
+
+- `Status insertNode(GraphMat &G, char node)`
+  - **功能**: 向图中添加一个新的节点
+  - **参数**:
+    - `GraphMat &G`: 目标图对象的引用
+    - `char node`: 需要插入的节点字符
+  - **返回**: 如果节点已存在，返回 `ERROR`；否则返回 `SUCCESS`
+
+- `Status insertArc(GraphMat &G, char from, char to)`
+  - **功能**: 在两个已存在的节点 `from` 和 `to` 之间添加一条有向边
+  - **参数**:
+    - `GraphMat &G`: 目标图对象的引用
+    - `char from`: 边的起始节点
+    - `char to`: 边的终点节点
+  - **返回**: 如果任一节点不存在，返回 `ERROR`；否则返回 `SUCCESS` (如果有对应的边也返回 SUCCESS)
+
+- `Status removeNode(GraphMat &G, char node)`
+  - **功能**: 从图中删除一个节点以及所有与之相关的入边和出边
+  - **参数**:
+    - `GraphMat &G`: 目标图对象的引用
+    - `char node`: 需要删除的节点字符
+  - **返回**: 如果节点不存在，返回 `ERROR`；否则返回 `SUCCESS`
+
+- `Status removeArc(GraphMat &G, char from, char to)`
+  - **功能**: 删除从节点 `from` 到节点 `to` 的有向边
+  - **参数**:
+    - `GraphMat &G`: 目标图对象的引用
+    - `char from`: 边的起始节点
+    - `char to`: 边的终点节点
+  - **返回**: 如果任一节点不存在，返回 `ERROR`；否则返回 `SUCCESS`
+
+### 查询与打印函数
+
+- `int getNodeInDegree(const GraphMat &G, char node)`
+  - **功能**: 计算并返回指定节点的入度（指向该节点的边的数量）
+  - **参数**:
+    - `const GraphMat &G`: 目标图对象的常量引用
+    - `char node`: 需要查询的节点字符
+  - **返回**: 节点的入度值。如果节点不存在，返回 `-1`
+
+- `int getNodeOutDegree(const GraphMat &G, char node)`
+  - **功能**: 计算并返回指定节点的出度（从该节点出发的边的数量）
+  - **参数**:
+    - `const GraphMat &G`: 目标图对象的常量引用
+    - `char node`: 需要查询的节点字符
+  - **返回**: 节点的出度值。如果节点不存在，返回 `-1`
+
+- `int getNodeDegree(const GraphMat &G, char node)`
+  - **功能**: 计算并返回指定节点的总度数
+  - **参数**:
+    - `const GraphMat &G`: 目标图对象的常量引用
+    - `char node`: 需要查询的节点字符
+  - **返回**: 节点的总度数。如果节点不存在，返回 `-1`
+
+- `void printGraphNodes(const GraphMat &G)`
+  - **功能**: 打印图中当前存在的所有节点及其总数
+  - **参数**:
+    - `const GraphMat &G`: 需要打印的图对象的常量引用
+
+- `void printGraphArcs(const GraphMat &G)`
+  - **功能**: 打印图中当前存在的所有边及其总数
+  - **参数**:
+    - `const GraphMat &G`: 需要打印的图对象的常量引用
+
+- `void printGraphMat(const GraphMat &G)`
+  - **功能**: 以矩阵的形式打印图的邻接矩阵
+  - **参数**:
+    - `const GraphMat &G`: 需要打印的图对象的常量引用
+
+### 算法与邻接表相关函数
+
+这些函数大多依赖于邻接表 `GraphTable` 以获得更好的算法效率
+
+- `Status migrateToTable(const GraphMat &G, GraphTable &GT)`
+  - **功能**: 将邻接矩阵 `G` 的结构转换并存储到一个新的邻接表 `GT` 中。采用了从后往前的列遍历和头插法，以保证邻接表中的邻居顺序与节点编号顺序一致
+  - **参数**:
+    - `const GraphMat &G`: 作为数据源的邻接矩阵
+    - `GraphTable &GT`: 用于接收结果的邻接表
+  - **返回**: 如果内存分配失败，返回 `OVERFLOW`；否则返回 `SUCCESS`
+
+- `void DFS(const GraphTable &GT, char start_node)`
+  - **功能**: 从指定的 `start_node` 开始，对图进行深度优先遍历并打印遍历序列。该函数会处理非连通图的情况
+  - **参数**:
+    - `const GraphTable &GT`: 需要遍历的图（以邻接表形式）
+    - `char start_node`: 遍历的起始节点
+
+- `void BFS(const GraphTable &GT, char start_node)`
+  - **功能**: 从指定的 `start_node` 开始，对图进行广度优先遍历并打印遍历序列
+  - **参数**:
+    - `const GraphTable &GT`: 需要遍历的图（以邻接表形式）
+    - `char start_node`: 遍历的起始节点
+
+- `Boolean findPathFromTo(const GraphTable &GT, char from, char to)`
+  - **功能**: 使用基于栈的深度优先搜索策略，查找是否存在从节点 `from` 到节点 `to` 的路径
+  - **参数**:
+    - `const GraphTable &GT`: 需要查找的图（以邻接表形式）
+    - `char from`: 路径的起始节点
+    - `char to`: 路径的目标节点
+  - **返回**: 如果路径存在，返回 `TRUE`；否则返回 `FALSE`
+
+- `char getFirstNeighbor(const GraphTable &GT, char node)`
+  - **功能**: 获取指定节点在邻接表中的第一个邻居节点
+  - **参数**:
+    - `const GraphTable &GT`: 目标图（以邻接表形式）
+    - `char node`: 需要查询的节点
+  - **返回**: 第一个邻居的字符。如果节点不存在或没有邻居，返回 `\0`
+
+- `char getNextNeighbor(const GraphTable &GT, char node, char cur)`
+  - **功能**: 已知节点 `node` 和它的一个当前邻居 `cur`，获取 `cur` 在邻接表链中的下一个邻居
+  - **参数**:
+    - `const GraphTable &GT`: 目标图（以邻接表形式）
+    - `char node`: 起始节点
+    - `char cur`: 当前邻居节点
+  - **返回**: 下一个邻居的字符。如果没有下一个邻居，返回 `\0`
+
+- `void printGraphTable(const GraphTable &GT)`
+  - **功能**: 打印图的邻接表表示
+  - **参数**:
+    - `const GraphTable &GT`: 需要打印的邻接表
