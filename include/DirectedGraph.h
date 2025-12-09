@@ -25,6 +25,7 @@ typedef struct GraphTable {
 
 // 函数
 Status initGraph(GraphMat &G); // 初始化邻接矩阵
+Status initGraphTable(GraphTable &GT); // 初始化邻接表
 Status insertNode(GraphMat &G, char node); // 向邻接矩阵中插入节点
 Status insertArc(GraphMat &G, char from, char to); // 向邻接矩阵中插入边
 Status removeArc(GraphMat &G, char from, char to); // 从邻接矩阵中删除边

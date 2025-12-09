@@ -3,6 +3,7 @@
 #pragma once
 
 #define OK 1    // 成功
+#define SUCCESS 1 // 成功
 #define ERROR 0 // 错误
 #define OVERFLOW -1 // 内存溢出
 
@@ -14,3 +15,4 @@
 typedef int Status;
 typedef int Boolean;
 
+#define NULLPTR nullptr // C++11 的特性，反正拿来直接用
