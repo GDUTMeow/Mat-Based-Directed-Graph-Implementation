@@ -321,22 +321,45 @@ void printGraphTable(const GraphTable &GT)
 
 Boolean findPathFromTo(const GraphTable &GT, char from, char to)
 {
-    int idx = findNodeIndexFromTable(GT, from);
-    if (idx == -1)
+    // 使用 DFS 查找从 from 到 to 的路径是否存在
+    int from_idx = findNodeIndexFromTable(GT, from);
+    int to_idx = findNodeIndexFromTable(GT, to);
+    if (from_idx == -1 || to_idx == -1)
     {
-        return FALSE; // 起始节点不存在
+        return FALSE; // 有节点不存在
     }
-    Arc currentArc = *(GT.nodes[idx].firstarc);
-    while (!(currentArc.nextarc == NULLPTR))
+    bool visited[MAX_LENGTH];
+    for (int i = 0; i < GT.node_count; i++)
     {
-        if (GT.nodes[currentArc.target].data == to)
+        visited[i] = false; // 初始化访问状态
+    }
+    // 使用栈进行 DFS
+    int stack[MAX_LENGTH];
+    int top = -1;
+    stack[++top] = from_idx;
+    visited[from_idx] = true;
+    while (top != -1)
+    {
+        int current_idx = stack[top--];
+        if (current_idx == to_idx)
         {
             return TRUE; // 找到路径
         }
-        currentArc = *(currentArc.nextarc);
+        Arc *p = GT.nodes[current_idx].firstarc;
+        while (p != NULLPTR)
+        {
+            int neighbor_idx = p->target;
+            if (!visited[neighbor_idx])
+            {
+                visited[neighbor_idx] = true;
+                stack[++top] = neighbor_idx;
+            }
+            p = p->nextarc;
+        }
     }
-    return FALSE;
+    return FALSE; // 未找到路径
 }
+
 char getFirstNeighbor(const GraphTable &GT, char node)
 {
     int idx = findNodeIndexFromTable(GT, node);
