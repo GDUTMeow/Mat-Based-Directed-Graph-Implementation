@@ -6,24 +6,8 @@
 #include "include/common.h"
 #include "include/art.h"
 #include "include/DirectedGraph.h"
-
+#include "include/utils.h"
 #include "include/const.h"
-
-void clearScreen()
-{
-#ifdef _WIN32
-    system("cls");
-#else
-    system("clear");
-#endif
-}
-
-void showPause()
-{
-    std::cout << "[*] Press ENTER to continue...";
-    std::cin.ignore(std::numeric_limits<std::streamsize>::max(), '\n');
-    std::cin.get();
-}
 
 void insertNodeHandler(GraphMat &G)
 {

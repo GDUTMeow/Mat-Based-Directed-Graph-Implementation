@@ -2,6 +2,7 @@
 #include <iostream>
 #include "../include/DirectedGraph.h"
 #include "../include/common.h"
+#include "../include/utils.h"
 
 // 私有函数
 int findNodeIndex(const GraphMat &G, char node)
@@ -98,11 +99,6 @@ Status removeNode(GraphMat &G, char node)
     if (idx == -1) // 未找到节点
     {
         return ERROR; // 节点不存在
-    }
-    for (int i = 0; i < G.size; i++)
-    {
-        G.arcs[i][idx] = 0; // 删除所有指向该节点的边，令对应的邻接矩阵中的值为 0
-        G.arcs[idx][i] = 0; // 删除该节点指向的所有边，令对应的邻接矩阵中的值为 0
     }
     for (; idx < G.size - 1; idx++)
     {
@@ -302,6 +298,7 @@ void printGraphMat(const GraphMat &G)
         }
         std::cout << std::endl;
     }
+    showPause();
 }
 
 void printGraphTable(const GraphTable &GT)
@@ -312,11 +309,12 @@ void printGraphTable(const GraphTable &GT)
         Arc *currentArc = GT.nodes[i].firstarc;
         while (currentArc != NULLPTR)
         {
-            std::cout << currentArc->target << " -> ";
+            std::cout << GT.nodes[currentArc->target].data << " -> ";
             currentArc = currentArc->nextarc;
         }
         std::cout << "^\n";
     }
+    showPause();
 }
 
 Boolean findPathFromTo(const GraphTable &GT, char from, char to)
