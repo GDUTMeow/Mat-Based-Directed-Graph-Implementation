@@ -372,11 +372,15 @@ int main()
 {
     GraphMat G;
     int choice = -1;
-
+    int printed_title = 0;
     while (true)
     {
         clearScreen();
-        RainbowPrint(TITLE, 0.1, 0);
+        if (!printed_title)
+        {
+            printed_title = 1,
+            RainbowPrint(TITLE, 0.1, 0);
+        }
         std::cout << MENU << std::endl;
         std::cout << "[*] Current nodes in the graph" << std::endl;
         printGraphNodes(G);
