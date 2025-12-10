@@ -178,7 +178,7 @@ void BFS(const GraphTable &GT, char start_node)
         visited[i] = false; // 初始化
     }
 
-    // 3. 起始节点入队并标记
+    // 起始节点入队并标记
     std::cout << "[*] BFS Traversal: ";
     queue[tail++] = start_idx;
     visited[start_idx] = true;
